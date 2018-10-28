@@ -1,0 +1,11 @@
+{
+  "name": "mars-rover-kata-fp-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Angelo Sciarra",
+  "license": "ISC"
+}

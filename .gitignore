@@ -1,2 +1,3 @@
-.idea/
-mars-rover-kata-fp-ts.iml
+*.iml
+.idea
+node_modules

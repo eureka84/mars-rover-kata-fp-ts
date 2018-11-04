@@ -5,7 +5,7 @@ export interface Planet {
 }
 
 export function planetWithObstacles(planet: Planet, obs: Position[]) : Planet {
-    return Object.assign(planet, {obstacles: obs})
+    return Object.assign({}, planet, {obstacles: obs})
 }
 
 export interface Position {

@@ -174,10 +174,11 @@ describe('rover', () => {
     // });
 
     const assertRun = (inputs: string[], outputs : string[]) => {
+        const stdin = require("mock-stdin").stdin();
         const stdout = require("test-console").stdout;
 
         process.nextTick(() => {
-            process.stdin.push(inputs.join("\n"));
+            stdin.send(inputs);
         });
 
         let inspect = stdout.inspect();

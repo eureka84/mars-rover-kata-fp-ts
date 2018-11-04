@@ -3,11 +3,13 @@ import {ask} from "../ioOps";
 describe('ask', () => {
 
     it('should provide the given answer', () => {
+        const stdin = require("mock-stdin").stdin();
+
         expect.assertions(1);
         let expectedAnswer = "answer";
 
         process.nextTick(() => {
-            process.stdin.push(expectedAnswer);
+            stdin.send(expectedAnswer);
         });
 
         ask("A question")

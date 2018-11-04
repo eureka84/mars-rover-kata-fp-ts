@@ -1,5 +1,4 @@
-const run = () => {
-    console.log("Mars rover kata")
-};
+import {run} from "./game";
 
+// noinspection JSIgnoredPromiseFromCall
 run();

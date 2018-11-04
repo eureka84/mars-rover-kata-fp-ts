@@ -3,12 +3,11 @@ import {none, Option, Some} from "fp-ts/lib/Option";
 
 export function handleCommands(rover: Rover, cs: Command[]): Result {
     if (cs.length > 0) {
-        let roverOption = handleCommand(rover, cs[0]);
-
-        return roverOption.fold(
-                    {hitObstacle: true, rover},
-                    (nextRover) => handleCommands(nextRover, cs.slice(1))
-                );
+        return handleCommand(rover, cs[0])
+            .fold(
+                {hitObstacle: true, rover},
+                (nextRover) => handleCommands(nextRover, cs.slice(1))
+            );
     } else {
         return {hitObstacle: false, rover};
     }

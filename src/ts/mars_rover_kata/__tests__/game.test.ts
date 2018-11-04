@@ -26,8 +26,7 @@ describe('rover', () => {
     //         "Where are the obstacles?",
     //         "What is the position of the rover?",
     //         "Waiting commands...",
-    //         "W:5,7"
-    //         // "W:4,4"
+    //         "W:4,4"
     //     ]);
     // });
     //

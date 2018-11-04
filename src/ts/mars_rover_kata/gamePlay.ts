@@ -90,25 +90,25 @@ function moveBackward(r: Rover): Option<Position> {
 
 function moveSouth(position: Position, planet: Planet): Option<Position> {
     const newX = (position.x + 1) % planet.height;
-    return testPositionDoesNotHitObstacle(planet, Object.assign(position, {x: newX}));
+    return validatePosition(planet, Object.assign(position, {x: newX}));
 }
 
 function moveNorth(position: Position, planet: Planet): Option<Position> {
     const newX = position.x > 0 ? position.x - 1 : planet.height - 1;
-    return testPositionDoesNotHitObstacle(planet, Object.assign(position, {x: newX}));
+    return validatePosition(planet, Object.assign(position, {x: newX}));
 }
 
 function moveEast(position: Position, planet: Planet): Option<Position> {
     const newY = (position.y + 1) % planet.width;
-    return testPositionDoesNotHitObstacle(planet, Object.assign(position, {y: newY}));
+    return validatePosition(planet, Object.assign(position, {y: newY}));
 }
 
 function moveWest(position: Position, planet: Planet): Option<Position> {
     const newY = position.y > 0 ? position.y - 1 : planet.width - 1;
-    return testPositionDoesNotHitObstacle(planet, Object.assign(position, {y: newY}));
+    return validatePosition(planet, Object.assign(position, {y: newY}));
 }
 
-function testPositionDoesNotHitObstacle(planet: Planet, newPosition: Position): Option<Position> {
+function validatePosition(planet: Planet, newPosition: Position): Option<Position> {
     if (planet.obstacles.indexOf(newPosition) > 0)
         return none;
     else

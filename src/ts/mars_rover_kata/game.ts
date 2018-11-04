@@ -1,7 +1,7 @@
 import {Task} from "fp-ts/lib/Task";
+import {handleCommands} from "./gamePlay";
 import {makeRover, planetWithObstacles} from "./data";
 import {display, readCommands, readObstacles, readPlanet, readPosition, welcome} from "./gameIntercations";
-import {handleCommands} from "./gamePlay";
 
 const game: Task<void> =
     welcome()

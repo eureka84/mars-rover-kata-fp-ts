@@ -3,11 +3,9 @@ import {ask} from "../ioOps";
 describe('ask', () => {
 
 	it('should provide the given answer',  (done) => {
-		const stdin = require('mock-stdin').stdin();
+        const bddStdin = require('bdd-stdin');
 
-		process.nextTick(() => {
-			stdin.send("answer");
-		});
+        bddStdin("answer");
 
 		ask("A question").run()
 			.then((answer) => {

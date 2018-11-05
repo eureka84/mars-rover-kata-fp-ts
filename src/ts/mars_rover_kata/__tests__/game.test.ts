@@ -16,7 +16,7 @@ describe('rover', () => {
 			"E:3,3"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should discard invalid commands and keep going", (done) => {
@@ -30,7 +30,7 @@ describe('rover', () => {
 			"W:4,4"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should stop when hit an obstacle", (done) => {
@@ -44,7 +44,7 @@ describe('rover', () => {
 			"O:W:0,1"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should move forward", (done) => {
@@ -58,7 +58,7 @@ describe('rover', () => {
 			"N:3,5"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should move backward", (done) => {
@@ -72,7 +72,7 @@ describe('rover', () => {
 			"N:7,5"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 90 to the right", (done) => {
@@ -86,7 +86,7 @@ describe('rover', () => {
 			"E:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 180 to the right", (done) => {
@@ -100,7 +100,7 @@ describe('rover', () => {
 			"S:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 270 to the right", (done) => {
@@ -114,7 +114,7 @@ describe('rover', () => {
 			"W:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 360 to the right", (done) => {
@@ -128,7 +128,7 @@ describe('rover', () => {
 			"N:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 90 to the left", (done) => {
@@ -142,7 +142,7 @@ describe('rover', () => {
 			"W:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 180 to the left", (done) => {
@@ -156,7 +156,7 @@ describe('rover', () => {
 			"S:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 270 to the left", (done) => {
@@ -170,7 +170,7 @@ describe('rover', () => {
 			"E:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
 	it("should turn 360 to the left", (done) => {
@@ -184,20 +184,20 @@ describe('rover', () => {
 			"N:0,0"
 		];
 
-		verifyInputsProduce(inputs, expectedOutputs, done);
+		runGameWithGivenInputsAndVerifyOutputsMatch(inputs)(expectedOutputs)(done);
 	});
 
-	const verifyInputsProduce = (inputs: string[], expectedOutputs: string[], done: DoneCallback) => {
+	const runGameWithGivenInputsAndVerifyOutputsMatch = (ins: string[]) => (outs: string[]) => (done: DoneCallback) => {
 		const bddStdin = require('bdd-stdin');
 		const stdout = require('test-console').stdout;
 
-		bddStdin(...inputs, "\n");
+		bddStdin(...ins, "\n");
 
 		const inspect = stdout.inspect();
 
 		run().then(() => {
 			inspect.restore();
-			expect(inspect.output).toEqual(expectedOutputs);
+			expect(inspect.output).toEqual(outs);
 			done();
 		});
 	};

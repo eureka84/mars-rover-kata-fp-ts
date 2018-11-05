@@ -2,19 +2,45 @@ import {ask} from "../ioOps";
 
 describe('ask', () => {
 
-    it('should provide the given answer', () => {
-        const stdin = require("mock-stdin").stdin();
+	let stdin: { send: (arg0: string) => void; };
 
-        expect.assertions(1);
-        let expectedAnswer = "answer";
+	beforeEach(function () {
+		stdin = require('mock-stdin').stdin();
+	});
 
-        process.nextTick(() => {
-            stdin.send(expectedAnswer);
-        });
+	it('should provide the given answer',  () => {
 
-        ask("A question")
-            .run()
-            .then((answer) => expect(answer).toBe(expectedAnswer));
-    });
+		expect.assertions(1);
+		let expectedAnswer = "answer";
+
+		process.nextTick(function mockResponse() {
+			stdin.send(expectedAnswer);
+		});
+
+		ask("A question").run()
+			.then((answer) => {
+				expect(answer).toBe(expectedAnswer);
+			});
+	});
+
+	it('asks a question', function () {
+		process.nextTick(function mockResponse() {
+			stdin.send('response');
+		});
+		return askPromise('question: test')
+			.then(function (response) {
+				console.assert(response === 'response');
+			});
+	});
+
+
+	function askPromise(question: string) {
+		console.log(question);
+		return new Promise(function (resolve) {
+			process.stdin.once('data', function (data) {
+				resolve(data.toString().trim());
+			});
+		});
+	}
 
 });

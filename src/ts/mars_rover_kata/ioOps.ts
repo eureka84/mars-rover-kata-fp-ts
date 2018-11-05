@@ -12,7 +12,7 @@ export const reads: Task<string> = new Task(
 /** writes to standard output */
 export const puts = (message: string): Task<void> => new Task(
 	() => new Promise(resolve => {
-		process.stdout.write(message);
+		process.stdout.write(message + "\n");
 		resolve();
 	})
 );

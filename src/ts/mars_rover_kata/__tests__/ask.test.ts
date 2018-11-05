@@ -2,45 +2,35 @@ import {ask} from "../ioOps";
 
 describe('ask', () => {
 
-	let stdin: { send: (arg0: string) => void; };
+	it('should provide the given answer',  (done) => {
+		const stdin = require('mock-stdin').stdin();
 
-	beforeEach(function () {
-		stdin = require('mock-stdin').stdin();
-	});
-
-	it('should provide the given answer',  () => {
-
-		expect.assertions(1);
-		let expectedAnswer = "answer";
-
-		process.nextTick(function mockResponse() {
-			stdin.send(expectedAnswer);
+		process.nextTick(() => {
+			stdin.send("answer");
 		});
 
 		ask("A question").run()
 			.then((answer) => {
-				expect(answer).toBe(expectedAnswer);
+				expect(answer).toBe("answer");
+				done();
 			});
 	});
 
-	it('asks a question', function () {
-		process.nextTick(function mockResponse() {
-			stdin.send('response');
-		});
-		return askPromise('question: test')
-			.then(function (response) {
-				console.assert(response === 'response');
+	it('should provide the given answers',  (done) => {
+		const bddStdin = require('bdd-stdin');
+
+		bddStdin('answer', 'yes');
+
+		ask("A question")
+			.chain((answer1) => {
+				expect(answer1).toBe("answer");
+				return ask(`was ${answer1} your answer`);
+			})
+			.run()
+			.then((answer) => {
+				expect(answer).toBe("yes");
+				done();
 			});
 	});
-
-
-	function askPromise(question: string) {
-		console.log(question);
-		return new Promise(function (resolve) {
-			process.stdin.once('data', function (data) {
-				resolve(data.toString().trim());
-			});
-		});
-	}
 
 });

@@ -2,28 +2,20 @@ import {Task} from 'fp-ts/lib/Task'
 
 /** reads from standard input */
 export const reads: Task<string> = new Task(
-    () => new Promise(resolve => {
-	    process.stdin.once('data', function (data) {
-		    resolve(data.toString().trim());
-	    });
-
-    	// const rl = createInterface({
-      //       input: process.stdin,
-      //       output: process.stdout
-      //   });
-      //   rl.question('> ', answer => {
-      //       rl.close();
-      //       resolve(answer)
-      //   })
-    })
+	() => new Promise(resolve => {
+		process.stdin.once('data', function (data) {
+			resolve(data.toString().trim());
+		});
+	})
 );
 
 /** writes to standard output */
 export const puts = (message: string): Task<void> => new Task(
-    () => new Promise(resolve => {
-        resolve(console.log(message))
-    })
+	() => new Promise(resolve => {
+		process.stdout.write(message);
+		resolve();
+	})
 );
 
 export const ask: (message: string) => Task<string> =
-    (message) => puts(message).chain(() => reads);
+	(message) => puts(message).chain(() => reads);

@@ -29,7 +29,7 @@ function handleCommand(r: Rover, c: Command): Option<Rover> {
 }
 
 const rotate: (r: Rover, direction: (intial: Direction) => Direction) => Rover =
-    (r, direction) => Object.assign(r, {direction: direction(r.direction)});
+    (r, direction) => Object.assign({}, r, {direction: direction(r.direction)});
 
 const rotateRight = (r: Rover) => rotate(r, right);
 

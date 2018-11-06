@@ -1,7 +1,7 @@
 import {ask, puts} from "./ioOps";
 import {Task} from "fp-ts/lib/Task";
 import {parseCommands, parseObstacles, parsePlanet, parsePosition} from "./dataParsers";
-import {Position, Planet, Command, Result, Direction} from "./data";
+import {Command, Direction, Planet, Position, Result} from "./data";
 
 export const welcome: () => Task<void> =
     () => puts("Welcome to the Mars Rover Kata!");
@@ -18,8 +18,8 @@ export const readPosition: () => Task<Position> =
 export const readCommands: () => Task<Command[]> =
     () => ask("Waiting commands...").map(parseCommands);
 
-export const display: (result: Result) => Task<void > = (result) => {
-    let {hitObstacle, rover} = result;
-    let prefix = hitObstacle ? "O:" : "";
+export const display: (result: Result) => Task<void> = (result) => {
+    const {hitObstacle, rover} = result;
+    const prefix = hitObstacle ? "O:" : "";
     return puts(`${prefix}${Direction[rover.direction]}:${rover.position.x},${rover.position.y}`)
 };

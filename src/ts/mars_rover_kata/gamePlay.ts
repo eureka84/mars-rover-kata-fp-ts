@@ -1,7 +1,7 @@
 import {Command, Direction, Planet, Position, Result, Rover} from "./data";
 import {none, Option, Some} from "fp-ts/lib/Option";
 
-export function handleCommands(rover: Rover, cs: Command[]): Result {
+export const handleCommands: (rover: Rover, cs: Command[]) => Result = (rover: Rover, cs: Command[]) => {
     if (cs.length > 0) {
         return handleCommand(rover, cs[0])
             .fold(
@@ -11,9 +11,9 @@ export function handleCommands(rover: Rover, cs: Command[]): Result {
     } else {
         return {hitObstacle: false, rover};
     }
-}
+};
 
-function handleCommand(r: Rover, c: Command): Option<Rover> {
+const handleCommand: (r: Rover, c: Command) => Option<Rover> = (r: Rover, c: Command) => {
     switch (c) {
         case Command.TurnRight:
             return new Some(rotateRight(r));
@@ -26,7 +26,7 @@ function handleCommand(r: Rover, c: Command): Option<Rover> {
         case Command.Unknown:
             return new Some(r)
     }
-}
+};
 
 const rotate: (r: Rover, direction: (intial: Direction) => Direction) => Rover =
     (r, direction) => Object.assign({}, r, {direction: direction(r.direction)});
@@ -61,7 +61,7 @@ const left = (direction: Direction) => {
     }
 };
 
-function moveForward(r: Rover): Option<Position> {
+const moveForward: (r: Rover) => Option<Position> = (r: Rover) => {
     switch (r.direction) {
         case Direction.S :
             return moveSouth(r.position, r.planet);
@@ -72,9 +72,9 @@ function moveForward(r: Rover): Option<Position> {
         case Direction.W :
             return moveWest(r.position, r.planet);
     }
-}
+};
 
-function moveBackward(r: Rover): Option<Position> {
+const moveBackward: (r: Rover) => Option<Position> = (r: Rover) => {
     switch (r.direction) {
         case Direction.S:
             return moveNorth(r.position, r.planet);
@@ -85,31 +85,31 @@ function moveBackward(r: Rover): Option<Position> {
         case Direction.W:
             return moveEast(r.position, r.planet);
     }
-}
+};
 
-function moveSouth(position: Position, planet: Planet): Option<Position> {
+const moveSouth: (position: Position, planet: Planet) => Option<Position> = (position: Position, planet: Planet) => {
     const newX = (position.x + 1) % planet.height;
     return validatePosition(planet, Object.assign({}, position, {x: newX}));
-}
+};
 
-function moveNorth(position: Position, planet: Planet): Option<Position> {
+const moveNorth: (position: Position, planet: Planet) => Option<Position> = (position: Position, planet: Planet) => {
     const newX = position.x > 0 ? position.x - 1 : planet.height - 1;
     return validatePosition(planet, Object.assign({}, position, {x: newX}));
-}
+};
 
-function moveEast(position: Position, planet: Planet): Option<Position> {
+const moveEast: (position: Position, planet: Planet) => Option<Position> = (position: Position, planet: Planet) => {
     const newY = (position.y + 1) % planet.width;
     return validatePosition(planet, Object.assign({}, position, {y: newY}));
-}
+};
 
-function moveWest(position: Position, planet: Planet): Option<Position> {
+const moveWest: (position: Position, planet: Planet) => Option<Position> = (position: Position, planet: Planet) => {
     const newY = position.y > 0 ? position.y - 1 : planet.width - 1;
     return validatePosition(planet, Object.assign({}, position, {y: newY}));
-}
+};
 
-function validatePosition(planet: Planet, newPosition: Position): Option<Position> {
-    if (planet.obstacles.find((p) => p.x === newPosition.x && p.y === newPosition.y))
+const validatePosition: (planet: Planet, next: Position) => Option<Position> = (planet: Planet, next: Position) => {
+    if (planet.obstacles.find((p) => p.x === next.x && p.y === next.y))
         return none;
     else
-        return new Some(newPosition);
-}
+        return new Some(next);
+};

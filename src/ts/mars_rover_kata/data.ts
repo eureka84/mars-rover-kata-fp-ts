@@ -4,9 +4,9 @@ export interface Planet {
     obstacles: Position[]
 }
 
-export function planetWithObstacles(planet: Planet, obs: Position[]) : Planet {
+export const planetWithObstacles: (planet: Planet, obs: Position[]) => Planet = (planet: Planet, obs: Position[]) => {
     return Object.assign({}, planet, {obstacles: obs})
-}
+};
 
 export interface Position {
     x: number
@@ -19,13 +19,14 @@ export interface Rover {
     direction: Direction
 }
 
-export function makeRover(position: Position, planet: Planet, direction = Direction.N) {
-    return {
-        planet,
-        position,
-        direction
-    }
-}
+export const makeRover: (position: Position, planet: Planet, direction?: Direction) => Rover =
+    (position: Position, planet: Planet, direction = Direction.N) => {
+        return {
+            planet,
+            position,
+            direction
+        }
+    };
 
 export enum Direction {
     N, S, E, W

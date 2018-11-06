@@ -1,17 +1,16 @@
 import {Command, Direction, Planet, Position, Result, Rover} from "./data";
 import {none, Option, Some} from "fp-ts/lib/Option";
+import {head, tail} from "fp-ts/lib/Array";
 
-export const handleCommands: (rover: Rover, cs: Command[]) => Result = (rover: Rover, cs: Command[]) => {
-    if (cs.length > 0) {
-        return handleCommand(rover, cs[0])
+export const handleCommands: (rover: Rover, cs: Command[]) => Result = (rover: Rover, cs: Command[]) =>
+    head(cs).fold(
+        {hitObstacle: false, rover},
+        (c) => handleCommand(rover, c)
             .fold(
                 {hitObstacle: true, rover},
-                (nextRover) => handleCommands(nextRover, cs.slice(1))
-            );
-    } else {
-        return {hitObstacle: false, rover};
-    }
-};
+                (nextRover) => handleCommands(nextRover, tail(cs).getOrElse([]))
+            )
+    );
 
 const handleCommand: (r: Rover, c: Command) => Option<Rover> = (r: Rover, c: Command) => {
     switch (c) {

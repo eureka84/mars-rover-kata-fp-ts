@@ -21,5 +21,5 @@ export const readCommands: () => Task<Command[]> =
 export const display: (result: Result) => Task<void> = (result) => {
     const {hitObstacle, rover} = result;
     const prefix = hitObstacle ? "O:" : "";
-    return puts(`${prefix}${Direction[rover.direction]}:${rover.position.x},${rover.position.y}`)
+    return puts(`${prefix}${Direction[rover.direction]}:${rover.position.x},${rover.position.y}`);
 };

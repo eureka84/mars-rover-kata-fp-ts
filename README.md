@@ -29,3 +29,9 @@ To run  the tests execute
 To try the game from console execute 
 
 `npm start` 
+
+## Questions
+- The size of the planet (eg: `5x10`)
+- The position of obstacles `x,y` (eg: `0,0/2,2` -> separe obstacles using `/`)
+- The position of the rover `x,y` (eg: `1,1`)
+- A list of commands `l|r|f|b` (eg: `lfrb` -> turn left 90 deg, move forward, turn right 90 deg, move backward)

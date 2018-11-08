@@ -28,4 +28,4 @@ To run  the tests execute
 
 To try the game from console execute 
 
-`ts-node src/ts/mars_rover_kata/index.ts` 
+`npm start` 

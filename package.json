@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "ts-node src/ts/mars_rover_kata/index.ts"
+    "start": "ts-node src/ts/mars_rover_kata/index.ts",
+    "try": "ts-node src/ts/try.ts"
   },
   "author": "Angelo Sciarra",
   "license": "ISC",

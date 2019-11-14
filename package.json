@@ -17,7 +17,7 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "bdd-stdin": "^0.2.0",
-    "jest": "^23.6.0",
+    "jest": "^25.0.0",
     "test-console": "^1.1.0",
     "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",

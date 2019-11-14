@@ -1,4 +1,5 @@
 import {ask} from "../ioOps";
+import {Task} from "fp-ts/lib/Task";
 
 describe('ask', () => {
 
@@ -7,7 +8,8 @@ describe('ask', () => {
 
         bddStdin("answer");
 
-		ask("A question").run()
+        let stringTask: Task<string> = ask("A question");
+        stringTask.run()
 			.then((answer) => {
 				expect(answer).toBe("answer");
 				done();

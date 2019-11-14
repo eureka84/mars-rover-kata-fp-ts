@@ -1,29 +1,30 @@
 import {Command, Direction, Planet, Position, Result, Rover} from "./data";
-import {none, Option, Some} from "fp-ts/lib/Option";
+import {fold, getOrElse, none, option, Option, some} from "fp-ts/lib/Option";
 import {head, tail} from "fp-ts/lib/Array";
 
 export const handleCommands: (rover: Rover, cs: Command[]) => Result = (rover: Rover, cs: Command[]) =>
-    head(cs).fold(
-        {hitObstacle: false, rover},
-        (c) => handleCommand(rover, c)
-            .fold(
-                {hitObstacle: true, rover},
-                (nextRover) => handleCommands(nextRover, tail(cs).getOrElse([]))
-            )
-    );
+    fold(
+        () => ({hitObstacle: false, rover}),
+        (c: Command) =>
+            fold(
+                ()=> ({hitObstacle: true, rover}),
+                (nextRover: Rover) => handleCommands(nextRover, getOrElse(() => Array<Command>())(tail(cs)))
+            )(handleCommand(rover, c))
+    )(head(cs));
+
 
 const handleCommand: (r: Rover, c: Command) => Option<Rover> = (r: Rover, c: Command) => {
     switch (c) {
         case Command.TurnRight:
-            return new Some(rotateRight(r));
+            return some(rotateRight(r));
         case Command.TurnLeft:
-            return new Some(rotateLeft(r));
+            return some(rotateLeft(r));
         case Command.MoveForward:
-            return moveForward(r).map((p) => Object.assign({}, r, {position: p}));
+            return option.map(moveForward(r), (p) => Object.assign({}, r, {position: p}));
         case Command.MoveBackward:
-            return moveBackward(r).map((p) => Object.assign({}, r, {position: p}));
+            return option.map(moveBackward(r), (p) => Object.assign({}, r, {position: p}));
         case Command.Unknown:
-            return new Some(r)
+            return some(r)
     }
 };
 
@@ -110,5 +111,5 @@ const validatePosition: (planet: Planet, next: Position) => Option<Position> = (
     if (planet.obstacles.find((p) => p.x === next.x && p.y === next.y))
         return none;
     else
-        return new Some(next);
+        return some(next);
 };

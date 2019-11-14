@@ -11,7 +11,7 @@
   "author": "Angelo Sciarra",
   "license": "ISC",
   "dependencies": {
-    "fp-ts": "^1.10.0"
+    "fp-ts": "^2.1.2"
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
